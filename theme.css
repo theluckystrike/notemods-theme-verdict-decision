@@ -1,0 +1,188 @@
+/* verdict-decision — decision log theme for Obsidian
+   Original CSS, MIT licensed. System fonts only, no network assets. */
+
+body {
+  --vd-bg: #fbfaf7;
+  --vd-bg-alt: #f0eee8;
+  --vd-surface: #ffffff;
+  --vd-text: #1f2328;
+  --vd-muted: #5c636b;
+  --vd-accent: #274690;
+  --vd-accent-soft: rgba(39, 70, 144, 0.12);
+  --vd-border: #c9c6bd;
+  --vd-decided: #1e6e3c;
+  --vd-open: #a2660a;
+  --vd-superseded: #8a2b2b;
+  --vd-code-bg: #f1efe9;
+  --font-text: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-monospace: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+}
+
+body.theme-dark {
+  --vd-bg: #10141c;
+  --vd-bg-alt: #171c26;
+  --vd-surface: #1b2130;
+  --vd-text: #dde3ec;
+  --vd-muted: #8d96a5;
+  --vd-accent: #7da2e8;
+  --vd-accent-soft: rgba(125, 162, 232, 0.15);
+  --vd-border: #2c3444;
+  --vd-decided: #6fca8f;
+  --vd-open: #e0aa4f;
+  --vd-superseded: #e57a7a;
+  --vd-code-bg: #212838;
+}
+
+/* Map tokens onto core Obsidian variables */
+body {
+  --background-primary: var(--vd-surface);
+  --background-secondary: var(--vd-bg-alt);
+  --text-normal: var(--vd-text);
+  --text-muted: var(--vd-muted);
+  --interactive-accent: var(--vd-accent);
+  --tab-outline-color: var(--vd-border);
+  --link-color: var(--vd-accent);
+  --text-accent: var(--vd-accent);
+  --background-modifier-border: var(--vd-border);
+  --divider-color: var(--vd-border);
+  --background-modifier-border-focus: var(--vd-accent);
+  --h1-size: 1.65em;
+  --h2-size: 1.4em;
+  --h3-size: 1.2em;
+  --h4-size: 1.1em;
+  --h5-size: 1.02em;
+  --h6-size: 0.95em;
+}
+
+/* ---------- App chrome ---------- */
+.workspace-tab-header {
+  border-radius: 6px 6px 0 0;
+  color: var(--vd-muted);
+}
+.workspace-tab-header.is-active {
+  background: var(--vd-surface);
+  color: var(--vd-accent);
+  box-shadow: inset 0 -2px 0 var(--vd-accent);
+}
+.nav-file-title, .nav-folder-title { color: var(--vd-text); border-radius: 4px; }
+.nav-file-title.is-active, .nav-folder-title.is-active {
+  background: var(--vd-accent-soft);
+}
+input:focus-visible, button:focus-visible, .workspace-leaf-content:focus-visible {
+  outline: 2px solid var(--vd-accent); outline-offset: 2px;
+}
+
+/* ---------- Headings with eyebrow feel ---------- */
+.markdown-rendered h1, .HyperMD-header.HyperMD-header-1 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--vd-border);
+  padding-bottom: 4px;
+}
+.markdown-rendered h2, .HyperMD-header.HyperMD-header-2 {
+  font-weight: 700;
+  color: var(--vd-accent);
+}
+.markdown-rendered h3, .HyperMD-header.HyperMD-header-3 {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3,
+.markdown-rendered h4, .markdown-rendered h5, .markdown-rendered h6,
+.HyperMD-header { overflow-wrap: break-word; }
+
+/* ---------- Lists: hanging indent ---------- */
+.markdown-rendered ul, .markdown-rendered ol { padding-inline-start: 2em; }
+.markdown-rendered li { margin-block: 3px; }
+.markdown-rendered ul > li::marker { color: var(--vd-accent); }
+
+/* ---------- Tasks: stamp style ---------- */
+.markdown-rendered .task-list-item-checkbox,
+.HyperMD-task-line .task-list-item-checkbox {
+  border-radius: 2px;
+  border: 1.5px solid var(--vd-accent);
+  background: var(--vd-surface);
+}
+.task-list-item-checkbox:checked { background-color: var(--vd-accent); }
+.markdown-rendered .task-list-item.is-checked { color: var(--vd-muted); }
+.markdown-rendered .task-list-item {
+  border-left: 1px solid var(--vd-border);
+  padding-left: 12px;
+}
+
+/* ---------- Callouts as decision records ---------- */
+.callout {
+  border: 1px solid var(--vd-border);
+  border-left: 6px double var(--vd-accent);
+  border-radius: 0;
+  background: var(--vd-bg);
+}
+.callout[data-callout="decided"], .callout[data-callout="success"] {
+  border-left: 6px solid var(--vd-decided);
+  background: color-mix(in srgb, var(--vd-decided) 7%, var(--vd-surface));
+}
+.callout[data-callout="open"], .callout[data-callout="question"] {
+  border-left: 6px solid var(--vd-open);
+  background: color-mix(in srgb, var(--vd-open) 8%, var(--vd-surface));
+}
+.callout[data-callout="superseded"], .callout[data-callout="caution"] {
+  border-left: 6px solid var(--vd-superseded);
+  background: color-mix(in srgb, var(--vd-superseded) 7%, var(--vd-surface));
+}
+.callout-title {
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  color: var(--vd-text);
+}
+
+/* ---------- Tables: ledger rules ---------- */
+.markdown-rendered table, .table-wrapper table {
+  border-collapse: collapse;
+  border-top: 2.5px solid var(--vd-text);
+  border-bottom: 2.5px solid var(--vd-text);
+}
+.markdown-rendered th {
+  border-bottom: 1px solid var(--vd-border);
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+.markdown-rendered td { border-bottom: 1px solid var(--vd-bg-alt); }
+.markdown-rendered td, .markdown-rendered th { padding: 7px 12px; }
+
+/* ---------- Links ---------- */
+.markdown-rendered a, .markdown-rendered .internal-link,
+.cm-s-obsidian .cm-hmd-internal-link {
+  color: var(--vd-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Code ---------- */
+.markdown-rendered code, .cm-s-obsidian span.cm-inline-code {
+  background: var(--vd-code-bg);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--vd-text);
+}
+.markdown-rendered pre, .HyperMD-codeblock {
+  background: var(--vd-code-bg);
+  border: 1px solid var(--vd-border);
+  border-radius: 4px;
+}
+
+/* ---------- Search & settings ---------- */
+.search-result-file-title { color: var(--vd-text); font-weight: 600; }
+.search-result-file-match { background: var(--vd-accent-soft); }
+.search-input-container input, .setting-item-control input {
+  border: 1px solid var(--vd-border);
+  background: var(--vd-surface);
+}
+.vertical-tab-content, .settings-container { color: var(--vd-text); }
+.checkbox-container { background-color: var(--vd-border); }
+.checkbox-container.is-enabled { background-color: var(--vd-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
